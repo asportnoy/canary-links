@@ -1,6 +1,6 @@
 {
 	"name": "CanaryLinks",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Use discord.com instead of canary.discord.com when copying message links",
 	"author": "asportnoy#6969",
 	"license": "MIT",
