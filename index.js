@@ -1,6 +1,7 @@
 const {Plugin} = require('powercord/entities');
 const {getModule} = require('powercord/webpack');
 const {inject, uninject} = require('powercord/injector');
+const {injectContextMenu} = require('powercord/util');
 
 module.exports = class ViewRaw extends Plugin {
 	startPlugin() {
@@ -14,11 +15,7 @@ module.exports = class ViewRaw extends Plugin {
 
 	async run() {
 		const {clipboard} = await getModule(['clipboard']);
-		const MessageContextMenu = await getModule(
-			m => m?.default?.displayName === 'MessageContextMenu',
-		);
 		const MessageMenuItems = await getModule(['copyLink', 'pinMessage']);
-		console.log(MessageMenuItems);
 
 		function checkChildren(el, url) {
 			if (!Array.isArray(el.props.children))
@@ -38,10 +35,9 @@ module.exports = class ViewRaw extends Plugin {
 			}/${message.id}`;
 		}
 
-		inject(
+		injectContextMenu(
 			'copy-link-contextmenu',
-			MessageContextMenu,
-			'default',
+			'MessageContextMenu',
 			(args, res) => {
 				if (!args[0]?.message) return res;
 				let url = getURL(args[0].channel, args[0].message);
@@ -55,7 +51,5 @@ module.exports = class ViewRaw extends Plugin {
 		inject('copy-link-dotmenu', MessageMenuItems, 'copyLink', args => {
 			clipboard.copy(getURL(args[0], args[1]));
 		});
-
-		MessageContextMenu.default.displayName = 'MessageContextMenu';
 	}
 };
