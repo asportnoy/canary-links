@@ -10,7 +10,10 @@ module.exports = class ViewRaw extends Plugin {
 
 	pluginWillUnload() {
 		uninject('copy-link-contextmenu');
-		uninject('copy-link-searchcontextmenu');
+		uninject('copy-link-search-contextmenu');
+		uninject('copy-link-text-contextmenu');
+		uninject('copy-link-thread-contextmenu');
+		uninject('copy-link-voice-contextmenu');
 		uninject('copy-link-dotmenu');
 	}
 
@@ -52,10 +55,28 @@ module.exports = class ViewRaw extends Plugin {
 		);
 
 		injectContextMenu(
-			'copy-link-searchcontextmenu',
+			'copy-link-search-contextmenu',
 			'MessageSearchResultContextMenu',
 			contextMenuFunc,
-		)
+		);
+
+		injectContextMenu(
+			'copy-link-text-contextmenu',
+			'ChannelListTextChannelContextMenu',
+			contextMenuFunc,
+		);
+
+		injectContextMenu(
+			'copy-link-thread-contextmenu',
+			'ChannelListThreadContextMenu',
+			contextMenuFunc,
+		);
+
+		injectContextMenu(
+			'copy-link-voice-contextmenu',
+			'ChannelListVoiceChannelContextMenu',
+			contextMenuFunc,
+		);
 
 		inject('copy-link-dotmenu', MessageMenuItems, 'copyLink', args => {
 			clipboard.copy(getURL(args[0], args[1]));
