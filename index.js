@@ -1,7 +1,7 @@
-const {Plugin} = require('powercord/entities');
-const {getModule} = require('powercord/webpack');
-const {inject, uninject} = require('powercord/injector');
-const {injectContextMenu} = require('powercord/util');
+const { Plugin } = require('powercord/entities');
+const { getModule } = require('powercord/webpack');
+const { inject, uninject } = require('powercord/injector');
+const { injectContextMenu } = require('powercord/util');
 
 module.exports = class ViewRaw extends Plugin {
 	startPlugin() {
@@ -18,7 +18,7 @@ module.exports = class ViewRaw extends Plugin {
 	}
 
 	async run() {
-		const {clipboard} = await getModule(['clipboard']);
+		const { copy } = await getModule(['copy', 'readClipboard']);
 		const MessageMenuItems = await getModule(['copyLink', 'pinMessage']);
 
 		function checkChildren(el, url) {
@@ -26,8 +26,8 @@ module.exports = class ViewRaw extends Plugin {
 				el.props.children = [el.props.children];
 			el.props.children.forEach(x => {
 				if (!x || !x.props) return;
-				if (x.props.id == 'copy-link') {
-					x.props.action = () => clipboard.copy(url);
+				if (x.props.id === 'copy-link') {
+					x.props.action = () => copy(url);
 				}
 				if (x.props.children) checkChildren(x, url);
 			});
@@ -41,12 +41,12 @@ module.exports = class ViewRaw extends Plugin {
 
 		const contextMenuFunc = (args, res) => {
 			if (!args[0]?.message) return res;
-			let url = getURL(args[0].channel, args[0].message);
+			const url = getURL(args[0].channel, args[0].message);
 
 			checkChildren(res, url);
 
 			return res;
-		}
+		};
 
 		injectContextMenu(
 			'copy-link-contextmenu',
@@ -79,7 +79,7 @@ module.exports = class ViewRaw extends Plugin {
 		);
 
 		inject('copy-link-dotmenu', MessageMenuItems, 'copyLink', args => {
-			clipboard.copy(getURL(args[0], args[1]));
+			copy(getURL(args[0], args[1]));
 		});
 	}
 };
