@@ -10,6 +10,10 @@ module.exports = class ViewRaw extends Plugin {
 
 	pluginWillUnload() {
 		uninject('copy-link-contextmenu');
+		uninject('copy-link-search-contextmenu');
+		uninject('copy-link-text-contextmenu');
+		uninject('copy-link-thread-contextmenu');
+		uninject('copy-link-voice-contextmenu');
 		uninject('copy-link-dotmenu');
 	}
 
@@ -35,17 +39,43 @@ module.exports = class ViewRaw extends Plugin {
 			}/${message.id}`;
 		}
 
+		const contextMenuFunc = (args, res) => {
+			if (!args[0]?.message) return res;
+			let url = getURL(args[0].channel, args[0].message);
+
+			checkChildren(res, url);
+
+			return res;
+		}
+
 		injectContextMenu(
 			'copy-link-contextmenu',
 			'MessageContextMenu',
-			(args, res) => {
-				if (!args[0]?.message) return res;
-				let url = getURL(args[0].channel, args[0].message);
+			contextMenuFunc,
+		);
 
-				checkChildren(res, url);
+		injectContextMenu(
+			'copy-link-search-contextmenu',
+			'MessageSearchResultContextMenu',
+			contextMenuFunc,
+		);
 
-				return res;
-			},
+		injectContextMenu(
+			'copy-link-text-contextmenu',
+			'ChannelListTextChannelContextMenu',
+			contextMenuFunc,
+		);
+
+		injectContextMenu(
+			'copy-link-thread-contextmenu',
+			'ChannelListThreadContextMenu',
+			contextMenuFunc,
+		);
+
+		injectContextMenu(
+			'copy-link-voice-contextmenu',
+			'ChannelListVoiceChannelContextMenu',
+			contextMenuFunc,
 		);
 
 		inject('copy-link-dotmenu', MessageMenuItems, 'copyLink', args => {
