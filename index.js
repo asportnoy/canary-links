@@ -18,7 +18,7 @@ module.exports = class ViewRaw extends Plugin {
 	}
 
 	async run() {
-		const {clipboard} = await getModule(['clipboard']);
+		const {clipboard} = await getModule(['clipboard', 'crashReporter']);
 		const MessageMenuItems = await getModule(['copyLink', 'pinMessage']);
 
 		function checkChildren(el, url) {
