@@ -26,56 +26,77 @@ module.exports = class ViewRaw extends Plugin {
 				el.props.children = [el.props.children];
 			el.props.children.forEach(x => {
 				if (!x || !x.props) return;
-				if (x.props.id === 'copy-link') {
+				if (x.props.id && x.props.id.endsWith('copy-link')) {
 					x.props.action = () => copy(url);
 				}
 				if (x.props.children) checkChildren(x, url);
 			});
 		}
 
-		function getURL(channel, message) {
+		function getMessageURL(channel, message) {
 			return `https://discord.com/channels/${channel.guild_id || '@me'}/${
 				channel.id
 			}/${message.id}`;
 		}
 
-		const contextMenuFunc = (args, res) => {
+		function getChannelURL(channel) {
+			return `https://discord.com/channels/${channel.guild_id || '@me'}/${channel.id}`;
+		}
+
+		const messageContextMenuFunc = (args, res) => {
+			console.log(args);
+			console.log(res);
 			if (!args[0]?.message) return res;
-			const url = getURL(args[0].channel, args[0].message);
+			const url = getMessageURL(args[0].channel, args[0].message);
 
 			checkChildren(res, url);
 
 			return res;
 		};
 
+		const channelListContextMenuFunc = (args, res) => {
+			if (!args[0]?.channel) return res;
+			const url = getChannelURL(args[0].channel);
+
+			if (!res.props.children) {
+				// for some reason children don't exist
+				res = new res.type(res.props);
+			}
+
+			checkChildren(res, url);
+
+			return res;
+		}
+
 		injectContextMenu(
 			'copy-link-contextmenu',
 			'MessageContextMenu',
-			contextMenuFunc,
+			messageContextMenuFunc,
 		);
 
 		injectContextMenu(
 			'copy-link-search-contextmenu',
 			'MessageSearchResultContextMenu',
-			contextMenuFunc,
+			messageContextMenuFunc,
 		);
 
 		injectContextMenu(
 			'copy-link-text-contextmenu',
 			'ChannelListTextChannelContextMenu',
-			contextMenuFunc,
+			channelListContextMenuFunc,
 		);
 
+		// TODO: fix this somehow
 		injectContextMenu(
 			'copy-link-thread-contextmenu',
 			'ChannelListThreadContextMenu',
-			contextMenuFunc,
+			channelListContextMenuFunc,
 		);
 
 		injectContextMenu(
 			'copy-link-voice-contextmenu',
 			'ChannelListVoiceChannelContextMenu',
-			contextMenuFunc,
+			channelListContextMenuFunc,
 		);
 
 		inject('copy-link-dotmenu', MessageMenuItems, 'copyLink', args => {
