@@ -26,7 +26,7 @@ module.exports = class ViewRaw extends Plugin {
 				el.props.children = [el.props.children];
 			el.props.children.forEach(x => {
 				if (!x || !x.props) return;
-				if (x.props.id && x.props.id.endsWith('copy-link')) {
+				if (x.props.id?.endsWith('copy-link')) {
 					x.props.action = () => copy(url);
 				}
 				if (x.props.children) checkChildren(x, url);
