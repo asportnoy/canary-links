@@ -66,7 +66,7 @@ module.exports = class ViewRaw extends Plugin {
 			checkChildren(res, url);
 
 			return res;
-		}
+		};
 
 		injectContextMenu(
 			'copy-link-contextmenu',
@@ -100,7 +100,7 @@ module.exports = class ViewRaw extends Plugin {
 		);
 
 		inject('copy-link-dotmenu', MessageMenuItems, 'copyLink', args => {
-			copy(getURL(args[0], args[1]));
+			copy(getMessageURL(args[0], args[1]));
 		});
 	}
 };
