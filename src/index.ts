@@ -5,7 +5,8 @@ export function runPlaintextPatches(): void {
     {
       replacements: [
         {
-          match: /(""\.concat\(location\.protocol,"\/\/"\)\.concat\()location\.host(\)\.concat\(\w+\.Z5c\.CHANNEL\(.+?\)\))/g,
+          match:
+            /(""\.concat\(location\.protocol,"\/\/"\)\.concat\()location\.host(\)\.concat\(\w+\.Z5c\.CHANNEL\(.+?\)\))/g,
           replace: (_, prefix, suffix) => {
             console.log(_, prefix, suffix);
             return `${prefix}"discord.com"${suffix}`;
