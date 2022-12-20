@@ -1,6 +1,6 @@
-import { PlaintextPatch } from "replugged";
+import { types } from "replugged";
 
-const patches: PlaintextPatch[] = [
+const patches: types.PlaintextPatch[] = [
   {
     replacements: [
       {
