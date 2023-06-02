@@ -9,8 +9,8 @@
   },
   "version": "1.0.8",
   "updater": {
-    "type": "github",
-    "id": "asportnoy/canary-links"
+    "type": "store",
+    "id": "dev.albertp.CanaryLinks"
   },
   "license": "MIT",
   "type": "replugged-plugin",
