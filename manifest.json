@@ -14,5 +14,6 @@
   },
   "license": "MIT",
   "type": "replugged-plugin",
-  "plaintextPatches": "src/plaintextPatches.ts"
+  "plaintextPatches": "src/plaintextPatches.ts",
+  "source": "https://github.com/asportnoy/canary-links"
 }
