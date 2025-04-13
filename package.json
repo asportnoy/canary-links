@@ -1,36 +1,35 @@
 {
-  "name": "plugin-template",
+  "name": "canary-links",
   "version": "1.0.11",
-  "description": "A plugin template",
+  "description": "Use discord.com instead of canary.discord.com when copying message links",
+  "license": "MIT",
   "engines": {
-    "node": ">=22.0.0",
+    "node": ">=20.0.0",
     "pnpm": ">=10.0.0"
   },
+  "author": "asportnoy",
   "scripts": {
     "build": "replugged build plugin",
     "watch": "replugged build plugin --watch",
     "bundle": "replugged bundle plugin",
+    "release": "replugged release",
     "check": "tsc --noEmit",
     "prettier:check": "prettier ./src --check",
     "eslint:check": "eslint ./src",
     "prettier:fix": "prettier ./src --write",
     "eslint:fix": "eslint ./src --fix",
     "lint": "pnpm run prettier:check && pnpm run eslint:check && pnpm run check",
-    "lint:fix": "pnpm run prettier:fix && pnpm run eslint:fix",
-    "release": "replugged release"
+    "lint:fix": "pnpm run prettier:fix && pnpm run eslint:fix"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
-    "@types/node": "^22.13.1",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
-    "eslint": "^8.57.1",
-    "eslint-config-dmitmel": "github:dmitmel/eslint-config-dmitmel",
-    "eslint-plugin-node": "^11.1.0",
-    "prettier": "^3.5.0",
-    "replugged": "^4.8.4",
-    "typescript": "~5.4.5"
+    "@eslint/js": "^9.24.0",
+    "@types/node": "^22.14.1",
+    "eslint": "^9.24.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "replugged": "^4.9.1",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.29.1"
   }
 }
